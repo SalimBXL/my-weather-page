@@ -1,10 +1,10 @@
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FicheWeatherCode from './Components/FicheWeatherCode';
 import FicheTemperatures from './Components/FicheTemperatures';
 import FicheWinds from './Components/FicheWinds';
 import FichePrecipitations from './Components/FichePrecipitations';
+import Hourly from './Components/Hourly';
 import Spinner from 'react-bootstrap/Spinner';
 import useAxios from 'axios-hooks'
 import logo from './logo.svg';
@@ -73,10 +73,17 @@ function App() {
     icone: `${WMO[data.current_weather.weathercode]}`,
     update: `${data.current_weather.time.toString().substr(-5)}`
   }
+  const hourlyWeatherCodes = data.hourly.weathercode.slice(currentHour);
+
 
   // TEMP
   const currentTemp = `${data.current_weather.temperature} ${data.hourly_units.apparent_temperature}`;
   const apparentTemp = `${data.hourly.apparent_temperature[currentHour]} ${data.hourly_units.apparent_temperature}`
+  const highTemp = `${Math.max(...data.hourly.temperature_2m)} ${data.hourly_units.apparent_temperature}`
+  const lowTemp = `${Math.min(...data.hourly.temperature_2m)} ${data.hourly_units.apparent_temperature}`
+  const hourlyTemp = data.hourly.temperature_2m.slice(Number(currentHour));
+  const hourlyTempUnit = data.hourly_units.temperature_2m;
+  
 
   // WIND
   const wind = {
@@ -92,6 +99,9 @@ function App() {
     snowfall: `${data.hourly.snowfall[currentHour]} ${data.hourly_units.snowfall}`,
     humidity: `${data.hourly.relativehumidity_2m[currentHour]} ${data.hourly_units.relativehumidity_2m}`,
   };
+  const hourlyHumidity = data.hourly.relativehumidity_2m.slice(currentHour);
+  const humidityUnit = data.hourly_units.relativehumidity_2m;
+
 
   // SUNRISE & SUNSET
   const day = {
@@ -100,9 +110,9 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <Card className="App">
       <Row xs={1} md={2} className="g-4">  
-        <Col>
+        <Col md={12}>
           <FicheWeatherCode
             code={weather.code}
             text={weather.text}
@@ -110,6 +120,20 @@ function App() {
             update={weather.update}
             sunrise={day.sunrise}
             sunset={day.sunset}
+            currentTemperature={currentTemp}
+            highTemp={highTemp}
+            lowTemp={lowTemp}
+          />
+        </Col>
+
+        <Col>
+          <Hourly 
+            temperatures={hourlyTemp} 
+            weatherCodes={hourlyWeatherCodes}
+            humidities={hourlyHumidity}
+            tempUnit={hourlyTempUnit} 
+            currentHour={currentHour}
+            humidityUnit={humidityUnit}
           />
         </Col>
 
@@ -137,7 +161,7 @@ function App() {
           />
         </Col>
       </Row>
-    </div>
+    </Card>
   );
 }
 

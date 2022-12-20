@@ -1,0 +1,16 @@
+.Hourly {}
+
+.Hourly-temperatures {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.Hourly-temperature {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    margin: 4px;
+}

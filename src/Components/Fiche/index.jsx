@@ -14,9 +14,9 @@ function Fiche({title, contents=[], subtitle, image}) {
                 {subtitle && <Card.Subtitle className="mb-2 text-muted"><small>{subtitle}</small></Card.Subtitle>}
                 <Card.Text className="Fiche-content">
                     {contents.map(content => (
-                        <div key={content.title}>
+                        <span key={content.title}>
                             {content.title} : {content.text}
-                        </div>
+                        </span>
                     ))}
                 </Card.Text>
             </Card.Body>
