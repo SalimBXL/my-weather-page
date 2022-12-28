@@ -2,7 +2,7 @@ import React from 'react'
 import Card from 'react-bootstrap/Card';
 import "./Hourly.css";
 
-function Hourly({temperatures, unit: tempUnit, currentHour, weatherCodes, humidities, humidityUnit}) {
+function Hourly({temperatures, tempUnit, currentHour, weatherCodes, humidities, humidityUnit}) {
     currentHour = Number(currentHour);
     return (
         <Card className='Hourly'>
